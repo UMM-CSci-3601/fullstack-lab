@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { throwError } from 'rxjs';
 import { ActivatedRouteStub } from '../../testing/activated-route-stub';
 import { MockUserService } from '../../testing/user.service.mock';
@@ -18,22 +17,22 @@ describe('UserProfileComponent', () => {
   const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
     // Using the constructor here lets us try that branch in `activated-route-stub.ts`
     // and then we can choose a new parameter map in the tests if we choose
-    id : chrisId
+    id: chrisId,
   });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
-        RouterTestingModule,
+      imports: [
+        RouterModule,
         MatCardModule,
         UserProfileComponent,
-        UserCardComponent
-    ],
-    providers: [
+        UserCardComponent,
+      ],
+      providers: [
         { provide: UserService, useValue: mockUserService },
-        { provide: ActivatedRoute, useValue: activatedRoute }
-    ]
-  }).compileComponents();
+        { provide: ActivatedRoute, useValue: activatedRoute },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -79,15 +78,17 @@ describe('UserProfileComponent', () => {
   });
 
   it('should set error data on observable error', () => {
-    const mockError = { message: 'Test Error', error: { title: 'Error Title' } };
+    const mockError = {
+      message: 'Test Error',
+      error: { title: 'Error Title' },
+    };
 
-    // const errorResponse = { status: 500, message: 'Server error' };
     // "Spy" on the `.addUser()` method in the user service. Here we basically
     // intercept any calls to that method and return the error response
     // defined above.
-    const getUserSpy = spyOn(mockUserService, 'getUserById')
-      .and
-      .returnValue(throwError(() => mockError));
+    const getUserSpy = spyOn(mockUserService, 'getUserById').and.returnValue(
+      throwError(() => mockError)
+    );
 
     activatedRoute.setParamMap({ id: chrisId });
 

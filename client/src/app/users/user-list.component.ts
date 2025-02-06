@@ -1,22 +1,21 @@
-import { Component, signal, inject, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { catchError, combineLatest, of, switchMap, tap } from 'rxjs';
 import { User, UserRole } from './user';
-import { UserService } from './user.service';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
 import { UserCardComponent } from './user-card.component';
-
-import { MatRadioModule } from '@angular/material/radio';
-import { MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
+import { UserService } from './user.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 /**
@@ -34,7 +33,6 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
   templateUrl: 'user-list.component.html',
   styleUrls: ['./user-list.component.scss'],
   providers: [],
-  standalone: true,
   imports: [
     MatCardModule,
     MatFormFieldModule,
@@ -52,9 +50,6 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
   ],
 })
 export class UserListComponent {
-  private userService = inject(UserService);
-  private snackBar = inject(MatSnackBar);
-
   userName = signal<string | undefined>(undefined);
   userAge = signal<number | undefined>(undefined);
   userRole = signal<UserRole | undefined>(undefined);
@@ -63,6 +58,18 @@ export class UserListComponent {
   viewType = signal<'card' | 'list'>('card');
 
   errMsg = signal<string | undefined>(undefined);
+
+  /**
+   * This constructor injects both an instance of `UserService`
+   * and an instance of `MatSnackBar` into this component.
+   * `UserService` lets us interact with the server.
+   *
+   * @param userService the `UserService` used to get users from the server
+   * @param snackBar the `MatSnackBar` used to display feedback
+   */
+  constructor(private userService: UserService, private snackBar: MatSnackBar) {
+    // Nothing here – everything is in the injection parameters.
+  }
 
   // The `Observable`s used in the definition of `serverFilteredUsers` below need
   // observables to react to, i.e., they need to know what kinds of changes to respond to.
@@ -121,7 +128,7 @@ export class UserListComponent {
 
   // No need for fancy RXJS stuff. We do the fancy RXJS stuff where we call `toSignal`, i.e., up in
   // the definition of `serverFilteredUsers` above.
-  // `computed()` takes the value of one or more signals (`serverfilteredUsers` in this case) and
+  // `computed()` takes the value of one or more signals (`serverFilteredUsers` in this case) and
   // _computes_ the value of a new signal (`filteredUsers`). Angular recognizes when any signals
   // in the function passed to `computed()` change, and will then call that function to generate
   // the new value of the computed signal.

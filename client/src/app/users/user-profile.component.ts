@@ -1,26 +1,22 @@
-import { Component, signal, inject } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserService } from './user.service';
-import { of, Subject } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { UserCardComponent } from './user-card.component';
-
+import { Component, DestroyRef, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { catchError, map, switchMap } from 'rxjs/operators';
+// import { User } from './user';
+import { UserCardComponent } from './user-card.component';
+import { UserService } from './user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { of } from 'rxjs';
+// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-user-profile',
-    templateUrl: './user-profile.component.html',
-    styleUrls: ['./user-profile.component.scss'],
-    standalone: true,
-    imports: [UserCardComponent, MatCardModule]
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  styleUrls: ['./user-profile.component.scss'],
+  imports: [UserCardComponent, MatCardModule],
 })
 export class UserProfileComponent {
-  private snackBar = inject(MatSnackBar);
-  private route = inject(ActivatedRoute);
-  private userService = inject(UserService);
-
   user = toSignal(
     this.route.paramMap.pipe(
       // Map the paramMap into the id
@@ -46,11 +42,13 @@ export class UserProfileComponent {
       // finalize(() => console.log('We got a new user, and we are done!'))
     )
   );
+  // The `error` will initially have empty strings for all its components.
   error = signal({ help: '', httpResponse: '', message: '' });
 
-  // This `Subject` will only ever emit one (empty) value when
-  // `ngOnDestroy()` is called, i.e., when this component is
-  // destroyed. That can be used ot tell any subscriptions to
-  // terminate, allowing the system to free up their resources (like memory).
-  private ngUnsubscribe = new Subject<void>();
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private destroyRef: DestroyRef
+  ) {}
 }

@@ -8,8 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router, RouterModule } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MockUserService } from 'src/testing/user.service.mock';
 import { AddUserComponent } from './add-user.component';
@@ -34,7 +33,7 @@ describe('AddUserComponent', () => {
         MatSelectModule,
         MatInputModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
+        RouterModule,
         AddUserComponent
     ],
 }).compileComponents().catch(error => {
@@ -282,7 +281,7 @@ describe('AddUserComponent#submitForm()', () => {
         MatSelectModule,
         MatInputModule,
         BrowserAnimationsModule,
-        RouterTestingModule.withRoutes([
+        RouterModule.forRoot([
             { path: 'users/1', component: UserProfileComponent }
         ]),
         AddUserComponent, UserProfileComponent],

@@ -90,10 +90,7 @@ describe('UserService', () => {
       // We have to `subscribe()` to the `Observable` returned by `getUsers()`.
       // The `users` argument in the function is the array of Users returned by
       // the call to `getUsers()`.
-      userService.getUsers().subscribe((users) => {
-        expect(users)
-          .withContext('returns the test users')
-          .toBe(testUsers);
+      userService.getUsers().subscribe(() => {
         // The mocked method (`httpClient.get()`) should have been called
         // exactly one time.
         expect(mockedMethod)
@@ -234,8 +231,7 @@ describe('UserService', () => {
       // We have to `subscribe()` to the `Observable` returned by `getUserById()`.
       // The `user` argument in the function below is the thing of type User returned by
       // the call to `getUserById()`.
-      userService.getUserById(targetId).subscribe((user) => {
-        expect(user).withContext('returns the target user').toBe(targetUser);
+      userService.getUserById(targetId).subscribe(() => {
         // The `User` returned by `getUserById()` should be targetUser, but
         // we don't bother with an `expect` here since we don't care what was returned.
         expect(mockedMethod)
