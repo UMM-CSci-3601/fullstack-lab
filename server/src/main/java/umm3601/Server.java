@@ -139,8 +139,8 @@ public class Server {
   /**
    * Configure the server and the MongoDB client to shut down gracefully.
    *
-   * @param mongoClient The MongoDB client
    * @param server The Javalin server instance
+   * @see   #mongoClient The MongoDB client field is used to access the MongoDB
    */
   private void configureShutdowns(Javalin server) {
     /*

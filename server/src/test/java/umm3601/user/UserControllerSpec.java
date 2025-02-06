@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -129,8 +130,8 @@ class UserControllerSpec {
 
   @BeforeEach
   void setupEach() throws IOException {
-    // Reset our mock context and argument captor (declared with Mockito annotations
-    // @Mock and @Captor)
+    // Reset our mock context and argument captor (declared with Mockito
+    // annotations @Mock and @Captor)
     MockitoAnnotations.openMocks(this);
 
     // Setup database
@@ -178,39 +179,29 @@ class UserControllerSpec {
     userController = new UserController(db);
   }
 
-  /**
-   * Verify that we can successfully build a UserController
-   * and call it's `addRoutes` method. This doesn't verify
-   * much beyond that the code actually runs without throwing
-   * an exception. We do, however, confirm that the `addRoutes`
-   * causes `.get()` to be called at least twice.
-   */
   @Test
-  public void canBuildController() throws IOException {
-    Javalin mockServer = Mockito.mock(Javalin.class);
+  void addsRoutes() {
+    Javalin mockServer = mock(Javalin.class);
     userController.addRoutes(mockServer);
-
-    // Verify that calling `addRoutes()` above caused `get()` to be called
-    // on the server at least twice. We use `any()` to say we don't care about
-    // the arguments that were passed to `.get()`.
-    verify(mockServer, Mockito.atLeast(2)).get(any(), any());
+    verify(mockServer, Mockito.atLeast(3)).get(any(), any());
+    verify(mockServer, Mockito.atLeastOnce()).post(any(), any());
+    verify(mockServer, Mockito.atLeastOnce()).delete(any(), any());
   }
 
   @Test
   void canGetAllUsers() throws IOException {
     // When something asks the (mocked) context for the queryParamMap,
-    // it will return an empty map (since there are no query params in this case
-    // where we want all users)
+    // it will return an empty map (since there are no query params in
+    // this case where we want all users).
     when(ctx.queryParamMap()).thenReturn(Collections.emptyMap());
 
     // Now, go ahead and ask the userController to getUsers
     // (which will, indeed, ask the context for its queryParamMap)
     userController.getUsers(ctx);
 
-    // We are going to capture an argument to a function, and the type of that
-    // argument will be
-    // of type ArrayList<User> (we said so earlier using a Mockito annotation like
-    // this):
+    // We are going to capture an argument to a function, and the type of
+    // that argument will be of type ArrayList<User> (we said so earlier
+    // using a Mockito annotation like this):
     // @Captor
     // private ArgumentCaptor<ArrayList<User>> userArrayListCaptor;
     // We only want to declare that captor once and let the annotation
@@ -218,16 +209,17 @@ class UserControllerSpec {
     // We reset the values of our annotated declarations using the command
     // `MockitoAnnotations.openMocks(this);` in our @BeforeEach
 
-    // Specifically, we want to pay attention to the ArrayList<User> that is passed
-    // as input
-    // when ctx.json is called --- what is the argument that was passed? We capture
-    // it and can refer to it later
+    // Specifically, we want to pay attention to the ArrayList<User> that
+    // is passed as input when ctx.json is called --- what is the argument
+    // that was passed? We capture it and can refer to it later.
     verify(ctx).json(userArrayListCaptor.capture());
     verify(ctx).status(HttpStatus.OK);
 
-    // Check that the database collection holds the same number of documents as the
-    // size of the captured List<User>
-    assertEquals(db.getCollection("users").countDocuments(), userArrayListCaptor.getValue().size());
+    // Check that the database collection holds the same number of documents
+    // as the size of the captured List<User>
+    assertEquals(
+        db.getCollection("users").countDocuments(),
+        userArrayListCaptor.getValue().size());
   }
 
   /**
@@ -316,10 +308,6 @@ class UserControllerSpec {
     assertTrue(names.contains("Pat"));
   }
 
-  // DO NOT JUST BLINDLY COPY THIS TEST INTO YOUR CODE! IT ESSENTIALLY
-  // DOES THE SAME THING AS THE PREVIOUS TEST AND IS JUST PROVIDED AS
-  // AN EXAMPLE OF AN ALTERNATIVE APPROACH. YOU SHOULD PICK ONE AND USE IT,
-  // AND NOT COPY BOTH OF THESE.
   /**
    * Confirm that if we process a request for users with age 37,
    * that all returned users have that age, and we get the correct
@@ -386,7 +374,7 @@ class UserControllerSpec {
   /**
    * Test that if the user sends a request with an illegal value in
    * the age field (i.e., something that can't be parsed to a number)
-   * we get a reasonable error code back.
+   * we get a reasonable error back.
    */
   @Test
   void respondsAppropriatelyToNonNumericAge() {
@@ -633,7 +621,7 @@ class UserControllerSpec {
   private ArgumentCaptor<ArrayList<UserByCompany>> userByCompanyListCaptor;
 
   @Test
-  public void testGetUsersGroupedByCompany() {
+  void testGetUsersGroupedByCompany() {
     when(ctx.queryParam("sortBy")).thenReturn("company");
     when(ctx.queryParam("sortOrder")).thenReturn("asc");
     userController.getUsersGroupedByCompany(ctx);
@@ -670,7 +658,7 @@ class UserControllerSpec {
   }
 
   @Test
-  public void testGetUsersGroupedByCompanyDescending() {
+  void testGetUsersGroupedByCompanyDescending() {
     when(ctx.queryParam("sortBy")).thenReturn("company");
     when(ctx.queryParam("sortOrder")).thenReturn("desc");
     userController.getUsersGroupedByCompany(ctx);
@@ -699,7 +687,7 @@ class UserControllerSpec {
   }
 
   @Test
-  public void testGetUsersGroupedByCompanyOrderedByCount() {
+  void testGetUsersGroupedByCompanyOrderedByCount() {
     when(ctx.queryParam("sortBy")).thenReturn("count");
     when(ctx.queryParam("sortOrder")).thenReturn("asc");
     userController.getUsersGroupedByCompany(ctx);
@@ -714,9 +702,12 @@ class UserControllerSpec {
     // result.
     assertEquals(3, result.size());
 
-    // The companies should be in order by user count, and with counts of 1, 1, and 2,
-    // respectively. We don't know which order "IBM" and "UMM" will be in, since they
-    // both have a count of 1. So we'll get them both and then swap them if necessary.
+    // The companies should be in order by user count, and with counts of 1, 1, and
+    // 2,
+    // respectively. We don't know which order "IBM" and "UMM" will be in, since
+    // they
+    // both have a count of 1. So we'll get them both and then swap them if
+    // necessary.
     UserByCompany ibm = result.get(0);
     UserByCompany umm = result.get(1);
     if (ibm._id.equals("UMM")) {
@@ -781,7 +772,7 @@ class UserControllerSpec {
     // MongoDB ID for that user.
     assertNotEquals("", addedUser.get("_id"));
     // The new user in the database (`addedUser`) should have the same
-    // field values as the user we asked it to add (`newuser`).
+    // field values as the user we asked it to add (`newUser`).
     assertEquals(newUser.name, addedUser.get("name"));
     assertEquals(newUser.age, addedUser.get(UserController.AGE_KEY));
     assertEquals(newUser.company, addedUser.get(UserController.COMPANY_KEY));
@@ -929,7 +920,7 @@ class UserControllerSpec {
     assertTrue(exceptionMessage.contains("150"));
   }
 
-    @Test
+  @Test
   void addUserWithoutName() throws IOException {
     String newUserJson = """
         {
@@ -1163,7 +1154,7 @@ class UserControllerSpec {
 
   /**
    * Test that the `generateAvatar` throws a `NoSuchAlgorithmException`
-   * if it can't find the `md5` hashing algortihm.
+   * if it can't find the `md5` hashing algorithm.
    *
    * To test this code, we need to mock out the `md5()` method so we
    * can control what it returns. In particular, we want `.md5()` to

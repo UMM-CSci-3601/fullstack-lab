@@ -44,6 +44,7 @@ class UserSpec {
     assertTrue(user1.hashCode() == user2.hashCode());
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   void usersAreNotEqualToOtherKindsOfThings() {
     user1._id = FAKE_ID_STRING_1;
