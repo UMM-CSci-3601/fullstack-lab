@@ -1,4 +1,4 @@
-import {User} from 'src/app/users/user';
+import { User } from 'src/app/users/user';
 
 export class AddUserPage {
 
@@ -10,8 +10,8 @@ export class AddUserPage {
   private readonly ageFieldName = 'age';
   private readonly companyFieldName = 'company';
   private readonly emailFieldName = 'email';
-  private readonly formFieldSelector = `mat-form-field`;
-  private readonly dropDownSelector = `mat-option`;
+  private readonly formFieldSelector = 'mat-form-field';
+  private readonly dropDownSelector = 'mat-option';
 
   navigateTo() {
     return cy.visit(this.url);
@@ -37,7 +37,11 @@ export class AddUserPage {
   }
 
   getSnackBar() {
-    return cy.get(this.snackBar);
+    // Since snackBars are often shown in response to errors,
+    // we'll add a timeout of 10 seconds to help increase the likelihood that
+    // the snackbar becomes visible before we might fail because it
+    // hasn't (yet) appeared.
+    return cy.get(this.snackBar, { timeout: 10000 });
   }
 
   addUser(newUser: User) {

@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User, UserRole } from './user';
-import { map } from 'rxjs/operators';
 import { Company } from '../company-list/company';
 
 /**
@@ -11,7 +11,7 @@ import { Company } from '../company-list/company';
  * about `Users` from the server.
  */
 @Injectable({
-  providedIn: `root`
+  providedIn: 'root'
 })
 export class UserService {
   // The URL for the users part of the server API.
@@ -119,6 +119,7 @@ export class UserService {
 
   addUser(newUser: Partial<User>): Observable<string> {
     // Send post request to add a new user with the user data as the body.
-    return this.httpClient.post<{id: string}>(this.userUrl, newUser).pipe(map(res => res.id));
+    // `res.id` should be the MongoDB ID of the newly added `User`.
+    return this.httpClient.post<{id: string}>(this.userUrl, newUser).pipe(map(response => response.id));
   }
 }

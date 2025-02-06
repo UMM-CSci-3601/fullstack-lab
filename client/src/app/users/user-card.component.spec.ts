@@ -1,9 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
-import { UserCardComponent } from './user-card.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatCardModule } from '@angular/material/card';
 import { input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserCardComponent } from './user-card.component';
 
 describe('UserCardComponent', () => {
   let component: UserCardComponent;
@@ -11,8 +10,13 @@ describe('UserCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MatCardModule, UserCardComponent],
-    }).compileComponents();
+      imports: [
+        BrowserAnimationsModule,
+        MatCardModule,
+        UserCardComponent
+      ]
+    })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -26,9 +30,8 @@ describe('UserCardComponent', () => {
         company: 'UMM',
         email: 'chris@this.that',
         role: 'admin',
-        avatar:
-          'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon',
-      });
+        avatar: 'https://gravatar.com/avatar/8c9616d6cc5de638ea6920fb5d65fc6c?d=identicon'
+      })
     });
     fixture.detectChanges();
   });

@@ -6,7 +6,7 @@ describe('App', () => {
   beforeEach(() => page.navigateTo());
 
   it('Should have the correct title', () => {
-    page.getAppTitle().should('contain', 'CSci 3601 Lab 4');
+    page.getAppTitle().should('contain', 'CSCI 3601 Iteration Template');
   });
 
   it('The sidenav should open, navigate to "Users" and back to "Home"', () => {
