@@ -1,4 +1,4 @@
-# CSCI 3601 Lab 4 - MongoDB <!-- omit in toc -->
+# CSCI 3601 Lab 3 - Fullstack Development <!-- omit in toc -->
 
 - [Setup](#setup)
   - [Make sure you have Mongo running on your (lab) computer](#make-sure-you-have-mongo-running-on-your-lab-computer)
@@ -9,24 +9,18 @@
   - [MongoDB in VS Code](#mongodb-in-vs-code)
 - [Testing and Continuous Integration](#testing-and-continuous-integration)
   - [Testing the client](#testing-the-client)
-    - [Linting the client](#linting-the-client)
+  - [Linting the client](#linting-the-client)
   - [Testing the server](#testing-the-server)
-  - [End to end testing](#end-to-end-testing)
+  - [End-to-end testing](#end-to-end-testing)
   - [GitHub Actions](#github-actions)
-- [Resources](#resources)
-  - [Angular (client)](#angular-client)
-  - [Javalin (server)](#javalin-server)
-  - [MongoDB (database)](#mongodb-database)
-  - [Cypress (end-to-end testing)](#cypress-end-to-end-testing)
+- [Selected Resources](#selected-resources)
 
-This is your starter code for Lab 4. The main goal here, as
-described in [LABTASKS](./LABTASKS.md), is to update the server
-code to actually use the MongoDB database instead of using the fixed
-set of users and todos we used in Labs 2 and 3.
-You'll also add functionality to do things
+This is your starter code for Lab 3 on Fullstack Development. The main goal here, as
+described in [LABTASKS](./LABTASKS.md), is to explore and implement client-side or frontend aspects of the client/server architecture as part of a _fullstack_ project (_Fullstack_ is just a fancy way of saying you will developing both the frontend and the backend aspects of the project, as well as testing that the frontend and backend are working together).
+You'll also add functionality to support things
 like adding new todos; this will require making changes all the
 way through from the Angular client, through the Java(lin) server,
-to the database.
+to the MongoDB database.
 
 ## Setup
 
@@ -47,10 +41,10 @@ For all of this to work, it's critical that you have Mongo installed
 and working. We should have that running on all the lab computers
 (although it's good to confirm that). If you also want to do
 development on your own computer you'll need to make sure you
-have MongoDB install, as described in the system setup
+have MongoDB installed, as described in the system setup
 documentation from the
-beginning of the semester. If you're unsure if it's set up and
-working correctly, try running `mongo`.
+beginning of the semester (but, maybe a newer version around 7.0.16). If you're unsure if it's set up and
+working correctly, try running `mongosh`.
 
 If your MongoDB server isn't installed you'll likely get an error
 message like:
@@ -59,27 +53,28 @@ message like:
 Error: couldn't connect to server 127.0.0.1:27017, connection attempt failed: SocketException: Error connecting to 127.0.0.1:27017 :: caused by :: Connection refused :
 ```
 
-If everything's good you should get something like this:
+Or, you might simply get a message saying the command can't be found. If everything's good you should get something like this:
 
 ```text
-MongoDB shell version v5.0.14
-connecting to: mongodb://127.0.0.1:27017
-MongoDB server version: 5.0.14
+
+Current Mongosh Log ID: 67a47dc2c810acdbd78b945c
+connecting to: mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.8
+Using MongoDB: 7.0.16
+Using Mongosh: 2.3.8
 ```
 
 Type `exit` or `^D` to exit out of the `mongo` shell tool.
 
-> :warning: For various reasons we're running an
-older version of Mongo in the lab (v5, when the current version
-is v7). This generally won't affect things, but there may be features that
-v5 doesn't support. If you're trying something you found online
+> :warning: For various reasons we're running a slightly
+older version of Mongo in the lab (v7, when the current version
+is v8). This generally won't affect things, but there may be features that
+v7 doesn't support. If you're trying something you found online
 and it doesn't seem to work as advertised, you might check and
-see if it's a v7 feature.
+see if it's a v8 feature.
 >
 > When looking things up in the MongoDB docs, it's probably wise
-to use [the v5.0 documentation](https://www.mongodb.com/docs/v5.0/).
+to use [the v7.0 documentation](https://www.mongodb.com/docs/v7.0/).
 >
-
 
 ### Open the project in VS Code
 
@@ -161,8 +156,8 @@ programming languages, include Java.
 
 ## Testing and Continuous Integration
 
-You have the same testing options as before: you can test the
-client, or the server or both.
+You have the ability to test the
+client (component testing with Karma), the server (JUnit testing and Mockito), or both (E2E testing).
 
 ### Testing the client
 
@@ -179,7 +174,7 @@ From the `client` directory:
   - It generates a coverage report you can find in your client directory `client/coverage/client/index.html`.
   - Right click on `index.html` and select `Copy path` and paste it into your browser of choice. You can also drag and drop `index.html` onto the tab area of your browser and it will open it.
 
-#### Linting the client
+### Linting the client
 
 We have included a tool called ESLint which helps analyze the client
 TypeScript and template HTML code and catch various errors and concerns. You will most likely see it directly in VS Code as yellow and red underlines. You can also directly run the linter on the entire client by running `ng lint` in the terminal in the `client` directory. This will check the whole client project and tell you if there are any issues.
@@ -197,12 +192,12 @@ From the `server` directory:
     your layout somewhere.
 
 You might find it useful to be able to generate HTTP requests "by hand" and see what the output
-is. The Thunderclient GitHub extension can be quite useful here; see [THUNDER_CLIENT.md](./THUNDER_CLIENT.md)
+is. The Thunder Client GitHub extension can be quite useful here; see [THUNDER_CLIENT.md](./THUNDER_CLIENT.md)
 for more details and examples.
 
-### End to end testing
+### End-to-end testing
 
-End to end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client,
+End-to-end (E2E) testing involves the whole software stack rather than one part of it. Our E2E tests look at the behavior of both the client,
 the server, and the database, and how they interact by simulating how a real user would interact with the app.
 
 We use [Cypress](https://www.cypress.io/) for our end-to-end tests. There are a few ways to run the E2E tests. They are all started from the `client` directory and require the server be running at the same time (`./gradlew run` in the `server` directory).
@@ -223,7 +218,7 @@ You can click on any of the integration test files to run their tests or run the
 
 ![image](https://user-images.githubusercontent.com/1300395/109009528-3f95d500-7674-11eb-86ee-8c5e375d5d0b.png)
 
-There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Resources" section below.
+There are a lot of neat things you can do here like inspect each test and find which selectors to use in the tests you are writing. We encourage you to look through some of the Cypress documentation linked in the "Selected Resources" section below or in the [Resources](./RESOURCES.md) markdown file.
 
 ### GitHub Actions
 
@@ -233,36 +228,14 @@ There are three GitHub Actions workflows set up in your repo:
 - [Client Angular](../../actions/workflows/client.yaml) - Karma tests (`ng-test`) and ESLint linting (`ng-lint`) for the client
 - [End to End](../../actions/workflows/e2e.yaml) - Cypress tests for end-to-end testing (`ng-e2e`)
 
-## Resources
+## Selected Resources
 
-### Angular (client)
+We have a much longer list of links in [Resources](./RESOURCES.md), but here are a few I think you'll find especially helpful since they relate to new things or things that were not well documented in the previous lab:
 
-- [Angular Unit Testing (Karma)](https://angular.io/guide/testing)
-- [Angular Routing](https://angular.io/guide/router)
-- [Angular Forms](https://angular.io/guide/forms-overview)
+- [Our basic notes about GitHub Projects](./GITHUB_PROJECTS.md)
+- [Angular Unit Testing (Karma)](https://angular.dev/guide/testing)
+- [Angular Forms](https://angular.dev/guide/forms)
 - [Angular Material](https://material.angular.io/)
-- [What are environments in Angular](https://angular.io/guide/build#configuring-application-environments)
-- [Angular CLI](https://angular.io/cli)
-
-### Javalin (server)
-
-- [Javalin Documentation](https://javalin.io/documentation)
-- [Javalin Tutorials](https://javalin.io/tutorials/)
-  - [Testing Javalin Applications](https://javalin.io/tutorials/testing)
-
-### MongoDB (database)
-
-- [The MongoDB Manual](https://www.mongodb.com/docs/v5.0/)
-- [MongoDB Java Drivers](https://mongodb.github.io/mongo-java-driver/)
-  - [MongoDB Driver 4.8 Documentation](https://mongodb.github.io/mongo-java-driver/4.8/)
-  - [Documentation specific to the driver](https://www.mongodb.com/docs/drivers/java/sync/v4.8/)
-- [MongoJack](https://mongojack.org/)
-- [JSON Generator](https://next.json-generator.com/) for generating
-  seed data for testing
-
-### Cypress (end-to-end testing)
-
+- [Theming Angular Material](https://material.angular.io/guide/theming)
 - [Cypress Docs](https://docs.cypress.io/)
 - [Cypress Best Practices](https://docs.cypress.io/guides/references/best-practices.html)
-- [Introduction to Cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html)
-- [Interacting with Elements in Cypress](https://docs.cypress.io/guides/core-concepts/interacting-with-elements.html)
