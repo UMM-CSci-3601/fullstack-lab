@@ -1,0 +1,38 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.server.launchMode": "Standard",
+    "eslint.workingDirectories": [ "./client" ],
+    "eslint.validate": [
+      "javascript",
+      "typescript",
+      "html"
+    ],
+    "cSpell.words": [
+      "Bson",
+      "Checkstyle",
+      "compat",
+      "CSCI",
+      "dont",
+      "floogulinc",
+      "gradlew",
+      "Ibmers",
+      "invalidemail",
+      "invalidrole",
+      "jacoco",
+      "Javalin",
+      "LABTASKS",
+      "Mockito",
+      "mongoseed",
+      "notanumber",
+      "OHMNET",
+      "sams",
+      "Servlet",
+      "sidenav",
+      "sortorder",
+      "testid",
+      "todos",
+      "unsub",
+      "VINCH"
+    ],
+    "angular.enable-experimental-ivy-prompt": false,
+}
