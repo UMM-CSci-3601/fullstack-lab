@@ -48,10 +48,10 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-    providers: [
-        importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MATERIAL_MODULES, LayoutModule),
-        provideAnimations(),
-        provideHttpClient(withInterceptorsFromDi())
-    ]
+  providers: [
+    importProvidersFrom(BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, MATERIAL_MODULES, LayoutModule),
+    provideAnimations(),
+    provideHttpClient(withInterceptorsFromDi())
+  ]
 })
   .catch(err => console.error(err));
