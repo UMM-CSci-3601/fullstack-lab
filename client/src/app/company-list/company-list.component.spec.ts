@@ -34,7 +34,7 @@ describe('CompanyListComponent', () => {
       imports: [CompanyListComponent],
       providers: [ { provide: UserService, useValue: userServiceStub } ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CompanyListComponent);
     component = fixture.componentInstance;

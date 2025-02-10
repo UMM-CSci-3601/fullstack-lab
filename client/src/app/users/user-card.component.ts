@@ -7,10 +7,10 @@ import { RouterLink } from '@angular/router';
 import { User } from './user';
 
 @Component({
-    selector: 'app-user-card',
-    templateUrl: './user-card.component.html',
-    styleUrls: ['./user-card.component.scss'],
-    imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule, RouterLink]
+  selector: 'app-user-card',
+  templateUrl: './user-card.component.html',
+  styleUrls: ['./user-card.component.scss'],
+  imports: [MatCardModule, MatButtonModule, MatListModule, MatIconModule, RouterLink]
 })
 export class UserCardComponent {
 
