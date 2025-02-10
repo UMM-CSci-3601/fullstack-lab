@@ -1,6 +1,7 @@
 import { UserRole } from 'src/app/users/user';
 
 export class UserListPage {
+
   private readonly baseUrl = '/users';
   private readonly pageTitle = '.user-list-title';
   private readonly userCardSelector = '.user-cards-container app-user-card';
@@ -32,7 +33,7 @@ export class UserListPage {
    * @returns an iterable (`Cypress.Chainable`) containing all
    *   the `app-user-card` DOM elements.
    */
-   getUserCards() {
+  getUserCards() {
     return cy.get(this.userCardSelector);
   }
 
