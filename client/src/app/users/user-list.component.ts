@@ -56,7 +56,7 @@ export class UserListComponent {
   userCompany = signal<string | undefined>(undefined);
 
   viewType = signal<'card' | 'list'>('card');
-
+  sortType = signal<'name' | 'age'>('name');
   errMsg = signal<string | undefined>(undefined);
 
   /**
@@ -79,6 +79,7 @@ export class UserListComponent {
   // definition of `serverFilteredUsers` below to trigger updates to the `Observable` there.
   private userRole$ = toObservable(this.userRole);
   private userAge$ = toObservable(this.userAge);
+  private sortType$ = toObservable(this.sortType);
 
   // We ultimately `toSignal` this to be able to access it synchronously, but we do all the RXJS operations
   // "inside" the `toSignal()` call processing and transforming the observables there.
@@ -89,14 +90,15 @@ export class UserListComponent {
     // the corresponding `userRole$` and/or `userAge$` observables to change, which will cause `combineLatest()`
     // to send a new pair down the pipe.
     toSignal(
-      combineLatest([this.userRole$, this.userAge$]).pipe(
+      combineLatest([this.userRole$, this.userAge$, this.sortType$]).pipe(
         // `switchMap` maps from one observable to another. In this case, we're taking `role` and `age` and passing
         // them as arguments to `userService.getUsers()`, which then returns a new observable that contains the
         // results.
-        switchMap(([role, age]) =>
+        switchMap(([role, age, sortBy]) =>
           this.userService.getUsers({
             role,
             age,
+            sortBy,
           })
         ),
         // `catchError` is used to handle errors that might occur in the pipeline. In this case `userService.getUsers()`

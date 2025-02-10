@@ -6,7 +6,8 @@ export class UserListPage {
   private readonly userCardSelector = '.user-cards-container app-user-card';
   private readonly userListItemsSelector = '.user-nav-list .user-list-item';
   private readonly profileButtonSelector = '[data-test=viewProfileButton]';
-  private readonly radioButtonSelector = '[data-test=viewTypeRadio] mat-radio-button';
+  private readonly viewTypeSelector = '[data-test=viewTypeRadio] mat-radio-button';
+  private readonly sortBySelector = '[data-test=sortByRadio] mat-radio-button'
   private readonly userRoleDropdownSelector = '[data-test=userRoleSelect]';
   private readonly dropdownOptionSelector = 'mat-option';
   private readonly addUserButtonSelector = '[data-test=addUserButton]';
@@ -62,7 +63,17 @@ export class UserListPage {
    * @param viewType Which view type to change to: "card" or "list".
    */
   changeView(viewType: 'card' | 'list') {
-    return cy.get(`${this.radioButtonSelector}[value="${viewType}"]`).click();
+    return cy.get(`${this.viewTypeSelector}[value="${viewType}"]`).click();
+  }
+
+  /**
+   * Change the sorting of the list.
+   *
+   * @param sortOption Which sorting to change to: "name" or "age".
+   */
+  changeSort(sortOption: 'name' | 'age') {
+    return cy.get(`${this.sortBySelector}[value="${sortOption}"]`).click();
+
   }
 
   /**

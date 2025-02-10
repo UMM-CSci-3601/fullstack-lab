@@ -58,7 +58,15 @@
                 <mat-radio-button value="list">List</mat-radio-button>
               </mat-radio-group>
             </div>
-  
+          <br>
+            <div class="flex-row gap-8 flex-wrap">
+              <label for="sortOption">Sort by: </label>
+              <mat-radio-group aria-label="Sort by" [(ngModel)]="sortType" data-test="sortByRadio">
+                <mat-radio-button value="name">Name</mat-radio-button>
+                <mat-radio-button value="age">Age</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
           </mat-card-content>
         </mat-card>
       </div>
