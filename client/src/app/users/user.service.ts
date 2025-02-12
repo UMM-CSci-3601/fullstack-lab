@@ -20,6 +20,7 @@ export class UserService {
   private readonly roleKey = 'role';
   private readonly ageKey = 'age';
   private readonly companyKey = 'company';
+  private readonly sortKey = 'sortby';
 
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
@@ -48,7 +49,7 @@ export class UserService {
    *  from the server after a possibly substantial delay (because we're
    *  contacting a remote server over the Internet).
    */
-  getUsers(filters?: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
+  getUsers(filters?: { role?: UserRole; age?: number; company?: string; sortBy?: string }): Observable<User[]> {
     // `HttpParams` is essentially just a map used to hold key-value
     // pairs that are then encoded as "?key1=value1&key2=value2&…" in
     // the URL when we make the call to `.get()` below.
@@ -62,6 +63,9 @@ export class UserService {
       }
       if (filters.company) {
         httpParams = httpParams.set(this.companyKey, filters.company);
+      }
+      if (filters.sortBy) {
+        httpParams = httpParams.set(this.sortKey, filters.sortBy);
       }
     }
     // Send the HTTP GET request with the given URL and parameters.

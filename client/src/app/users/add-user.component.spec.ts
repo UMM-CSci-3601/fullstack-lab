@@ -24,7 +24,7 @@ describe('AddUserComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
@@ -35,8 +35,8 @@ describe('AddUserComponent', () => {
         BrowserAnimationsModule,
         RouterModule,
         AddUserComponent
-    ],
-}).compileComponents().catch(error => {
+      ],
+    }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
   }));
@@ -275,18 +275,18 @@ describe('AddUserComponent#submitForm()', () => {
   beforeEach(() => {
     TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule,
+      imports: [ReactiveFormsModule,
         MatSnackBarModule,
         MatCardModule,
         MatSelectModule,
         MatInputModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
-            { path: 'users/1', component: UserProfileComponent }
+          { path: 'users/1', component: UserProfileComponent }
         ]),
         AddUserComponent, UserProfileComponent],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-}).compileComponents().catch(error => {
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
   });

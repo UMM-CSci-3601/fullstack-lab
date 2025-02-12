@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
         MatToolbarModule,
@@ -20,8 +20,8 @@ describe('AppComponent', () => {
         MatCardModule,
         MatListModule,
         AppComponent
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   it('should create the app', () => {

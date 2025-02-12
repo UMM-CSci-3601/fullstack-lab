@@ -46,9 +46,9 @@ describe('UserService', () => {
   beforeEach(() => {
     // Set up the mock handling of the HTTP requests
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    });
     // Construct an instance of the service with the mock
     // HTTP client.
     httpClient = TestBed.inject(HttpClient);
@@ -62,7 +62,7 @@ describe('UserService', () => {
   });
 
   describe('When getUsers() is called with no parameters', () => {
-   /* We really don't care what `getUsers()` returns. Since all the
+    /* We really don't care what `getUsers()` returns. Since all the
     * filtering (when there is any) is happening on the server,
     * `getUsers()` is really just a "pass through" that returns whatever it receives,
     * without any "post processing" or manipulation. The test in this
@@ -128,20 +128,20 @@ describe('UserService', () => {
     */
 
     it('correctly calls api/users with filter parameter \'admin\'', () => {
-        const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
 
-        userService.getUsers({ role: 'admin' }).subscribe(() => {
-          expect(mockedMethod)
-            .withContext('one call')
-            .toHaveBeenCalledTimes(1);
-          // The mocked method should have been called with two arguments:
-          //   * the appropriate URL ('/api/users' defined in the `UserService`)
-          //   * An options object containing an `HttpParams` with the `role`:`admin`
-          //     key-value pair.
-          expect(mockedMethod)
-            .withContext('talks to the correct endpoint')
-            .toHaveBeenCalledWith(userService.userUrl, { params: new HttpParams().set('role', 'admin') });
-        });
+      userService.getUsers({ role: 'admin' }).subscribe(() => {
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        // The mocked method should have been called with two arguments:
+        //   * the appropriate URL ('/api/users' defined in the `UserService`)
+        //   * An options object containing an `HttpParams` with the `role`:`admin`
+        //     key-value pair.
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(userService.userUrl, { params: new HttpParams().set('role', 'admin') });
+      });
     });
 
     it('correctly calls api/users with filter parameter \'age\'', () => {
@@ -158,49 +158,49 @@ describe('UserService', () => {
     });
 
     it('correctly calls api/users with multiple filter parameters', () => {
-        const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testUsers));
 
-        userService.getUsers({ role: 'editor', company: 'IBM', age: 37 }).subscribe(() => {
-          // This test checks that the call to `userService.getUsers()` does several things:
-          //   * It calls the mocked method (`HttpClient#get()`) exactly once.
-          //   * It calls it with the correct endpoint (`userService.userUrl`).
-          //   * It calls it with the correct parameters:
-          //      * There should be three parameters (this makes sure that there aren't extras).
-          //      * There should be a "role:editor" key-value pair.
-          //      * And a "company:IBM" pair.
-          //      * And a "age:37" pair.
+      userService.getUsers({ role: 'editor', company: 'IBM', age: 37 }).subscribe(() => {
+        // This test checks that the call to `userService.getUsers()` does several things:
+        //   * It calls the mocked method (`HttpClient#get()`) exactly once.
+        //   * It calls it with the correct endpoint (`userService.userUrl`).
+        //   * It calls it with the correct parameters:
+        //      * There should be three parameters (this makes sure that there aren't extras).
+        //      * There should be a "role:editor" key-value pair.
+        //      * And a "company:IBM" pair.
+        //      * And a "age:37" pair.
 
-          // This gets the arguments for the first (and in this case only) call to the `mockMethod`.
-          const [url, options] = mockedMethod.calls.argsFor(0);
-          // Gets the `HttpParams` from the options part of the call.
-          // `options.param` can return any of a broad number of types;
-          // it is in fact an instance of `HttpParams`, and I need to use
-          // that fact, so I'm casting it (the `as HttpParams` bit).
-          const calledHttpParams: HttpParams = (options.params) as HttpParams;
-          expect(mockedMethod)
-            .withContext('one call')
-            .toHaveBeenCalledTimes(1);
-          expect(url)
-            .withContext('talks to the correct endpoint')
-            .toEqual(userService.userUrl);
-          expect(calledHttpParams.keys().length)
-            .withContext('should have 3 params')
-            .toEqual(3);
-          expect(calledHttpParams.get('role'))
-            .withContext('role of editor')
-            .toEqual('editor');
-          expect(calledHttpParams.get('company'))
-            .withContext('company being IBM')
-            .toEqual('IBM');
-          expect(calledHttpParams.get('age'))
-            .withContext('age being 37')
-            .toEqual('37');
-        });
+        // This gets the arguments for the first (and in this case only) call to the `mockMethod`.
+        const [url, options] = mockedMethod.calls.argsFor(0);
+        // Gets the `HttpParams` from the options part of the call.
+        // `options.param` can return any of a broad number of types;
+        // it is in fact an instance of `HttpParams`, and I need to use
+        // that fact, so I'm casting it (the `as HttpParams` bit).
+        const calledHttpParams: HttpParams = (options.params) as HttpParams;
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        expect(url)
+          .withContext('talks to the correct endpoint')
+          .toEqual(userService.userUrl);
+        expect(calledHttpParams.keys().length)
+          .withContext('should have 3 params')
+          .toEqual(3);
+        expect(calledHttpParams.get('role'))
+          .withContext('role of editor')
+          .toEqual('editor');
+        expect(calledHttpParams.get('company'))
+          .withContext('company being IBM')
+          .toEqual('IBM');
+        expect(calledHttpParams.get('age'))
+          .withContext('age being 37')
+          .toEqual('37');
+      });
     });
   });
 
   describe('When getUserById() is given an ID', () => {
-   /* We really don't care what `getUserById()` returns. Since all the
+    /* We really don't care what `getUserById()` returns. Since all the
     * interesting work is happening on the server, `getUserById()`
     * is really just a "pass through" that returns whatever it receives,
     * without any "post processing" or manipulation. The test in this
