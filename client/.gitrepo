@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://github.com/UMM-CSci-3601/3601-client.git
 	branch = main
-	commit = 73ff17d21c85f0d1349898eea7e3acc24d01bd1d
-	parent = 6ef1b106ee28243a5c7feef760b07eabf7309454
+	commit = bbccd25842db7aa532b0092a46a5fbb872c9fd11
+	parent = 2f4ce19c99b8271127df3517c3146203ccc22f04
 	method = merge
 	cmdver = 0.4.9
