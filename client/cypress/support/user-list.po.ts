@@ -31,7 +31,7 @@ export class UserListPage {
    * @returns an iterable (`Cypress.Chainable`) containing all
    *   the `app-user-card` DOM elements.
    */
-   getUserCards() {
+  getUserCards() {
     return cy.get(this.userCardSelector);
   }
 

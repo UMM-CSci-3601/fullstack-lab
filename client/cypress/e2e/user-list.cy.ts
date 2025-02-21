@@ -127,7 +127,7 @@ describe('User list', () => {
       cy.get('.user-card-name').first().should('have.text', firstUserName);
       cy.get('.user-card-company').first().should('have.text', firstUserCompany);
     });
-   });
+  });
 
   it('Should click add user and go to the right URL', () => {
     // Click on the button for adding a new user
