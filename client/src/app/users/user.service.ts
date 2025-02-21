@@ -16,6 +16,7 @@ import { Company } from '../company-list/company';
 export class UserService {
   // The URL for the users part of the server API.
   readonly userUrl: string = `${environment.apiUrl}users`;
+  readonly usersByCompanyUrl: string = `${environment.apiUrl}usersByCompany`;
 
   private readonly roleKey = 'role';
   private readonly ageKey = 'age';
@@ -114,7 +115,7 @@ export class UserService {
   }
 
   getCompanies(): Observable<Company[]> {
-    return this.httpClient.get<Company[]>(`${environment.apiUrl}usersByCompany`);
+    return this.httpClient.get<Company[]>(`${this.usersByCompanyUrl}`);
   }
 
   addUser(newUser: Partial<User>): Observable<string> {
