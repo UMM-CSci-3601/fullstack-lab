@@ -4,6 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { User } from './user';
 import { UserService } from './user.service';
+import { Company } from '../company-list/company';
 
 describe('UserService', () => {
   // A small collection of test users
@@ -36,6 +37,19 @@ describe('UserService', () => {
       avatar: 'https://gravatar.com/avatar/d4a6c71dd9470ad4cf58f78c100258bf?d=identicon'
     }
   ];
+  // A small collection of users organized by company
+  const testCompanies: Company[] = [
+    {
+      _id: 'company1',
+      count: 1,
+      users: [{_id: 'user1', name: 'User 1'}]
+    },
+    {
+      _id: 'company2',
+      count: 2,
+      users: [{_id: 'user2', name: 'User 2'}, {_id: 'user3', name: 'User 3'}]
+    }
+  ];
   let userService: UserService;
   // These are used to mock the HTTP requests so that we (a) don't have to
   // have the server running and (b) we can check exactly which HTTP
@@ -59,6 +73,25 @@ describe('UserService', () => {
   afterEach(() => {
     // After every test, assert that there are no more pending requests.
     httpTestingController.verify();
+  });
+
+  describe('When getCompanies() is called with no parameters', () => {
+    it('calls `api/usersByCompany`', waitForAsync(() => {
+      // Mock the `httpClient.get()` method, so that instead of making an HTTP request,
+      // it just returns our test data.
+      const mockedMethod = spyOn(httpClient, 'get').and.returnValue(of(testCompanies));
+
+      userService.getCompanies().subscribe(() => {
+        // The mocked method (`httpClient.get()`) should have been called
+        // exactly one time.
+        expect(mockedMethod)
+          .withContext('one call')
+          .toHaveBeenCalledTimes(1);
+        expect(mockedMethod)
+          .withContext('talks to the correct endpoint')
+          .toHaveBeenCalledWith(userService.usersByCompanyUrl);
+      });
+    }));
   });
 
   describe('When getUsers() is called with no parameters', () => {
