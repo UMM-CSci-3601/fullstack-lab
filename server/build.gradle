@@ -29,28 +29,28 @@ repositories {
 // External dependencies that our application utilizes
 dependencies {
   // Javalin, a simple web framework for Java
-  implementation 'io.javalin:javalin:6.4.0'
+  implementation 'io.javalin:javalin:6.6.0'
 
   // Mongo DB Driver for Java
-  implementation 'org.mongodb:mongodb-driver-sync:5.3.1'
+  implementation 'org.mongodb:mongodb-driver-sync:5.4.0'
 
   // MongoJack, MongoDB integration for Jackson
   implementation 'org.mongojack:mongojack:5.0.2'
 
   // Simple Logging Facade for Java
-  implementation 'org.slf4j:slf4j-simple:2.0.16'
+  implementation 'org.slf4j:slf4j-simple:2.0.17'
 
   // JUnit Jupiter API for testing.
-  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
 
   // JUnit Jupiter Engine for testing.
-  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
 
   // JUnit Platform Launcher for testing.
   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
   // Mockito for testing
-  testImplementation 'org.mockito:mockito-core:5.15.2'
+  testImplementation 'org.mockito:mockito-core:5.17.0'
 }
 
 application {

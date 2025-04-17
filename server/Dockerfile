@@ -20,4 +20,4 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait
 RUN chmod +x /wait
 
 # Run the server when the container is started
-CMD ["/wait", "server/bin/server"]
+CMD /wait && server/bin/server
