@@ -263,7 +263,7 @@ describe('AddUserComponent', () => {
       addUserComponent.addUserForm.get(controlName).setErrors({'unknown': true});
       expect(addUserComponent.getErrorMessage(controlName)).toEqual('Unknown error');
     });
-  })
+  });
 });
 
 describe('AddUserComponent#submitForm()', () => {

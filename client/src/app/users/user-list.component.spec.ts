@@ -131,24 +131,31 @@ describe('Misbehaving User List', () => {
         }),
       filterUsers: () => []
     };
-
-    TestBed.configureTestingModule({
-      imports: [COMMON_IMPORTS, UserListComponent],
-      // providers:    [ UserService ]  // NO! Don't provide the real service!
-      // Provide a test-double instead
-      providers: [{ provide: UserService, useValue: userServiceStub }],
-    });
   });
 
   // Construct the `userList` used for the testing in the `it` statement
   // below.
   beforeEach(waitForAsync(() => {
-    TestBed.compileComponents().then(() => {
-      fixture = TestBed.createComponent(UserListComponent);
-      userList = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    TestBed.configureTestingModule({
+      imports: [
+        COMMON_IMPORTS,
+        UserListComponent
+      ],
+      // providers:    [ UserService ]  // NO! Don't provide the real service!
+      // Provide a test-double instead
+      providers: [{
+        provide: UserService,
+        useValue: userServiceStub
+      }],
+    })
+      .compileComponents();
   }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(UserListComponent);
+    userList = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
   it("generates an error if we don't set up a UserListService", () => {
     // If the service fails, we expect the `serverFilteredUsers` signal to
