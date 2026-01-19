@@ -3,10 +3,25 @@ updates:
 - package-ecosystem: npm
   directory: "/client"
   schedule:
-    interval: monthly
-    time: "12:00"
+    interval: "weekly"
+  groups:
+    angular:
+      applies-to: version-updates
+      patterns:
+        - "@angular*"
+      update-types:
+        - "minor"
+        - "patch"
+    minor-and-patch:        
+      applies-to: security-updates
+      patterns:
+        - "@angular*"
+      update-types:
+        - "patch"
+        - "minor"
+    time: "02:00"
     timezone: America/Chicago
-  open-pull-requests-limit: 5
+  open-pull-requests-limit: 10
   ignore:
     - dependency-name: '@types/node'
       update-types:
