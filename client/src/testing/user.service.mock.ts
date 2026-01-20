@@ -44,7 +44,7 @@ export class MockUserService extends UserService {
   ];
 
   constructor() {
-    super(null);
+    super(); // do we even need this if it's just super?
   }
 
   // skipcq: JS-0105
