@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
@@ -14,14 +14,6 @@ import { Company } from '../company-list/company';
   providedIn: 'root'
 })
 export class UserService {
-  // The URL for the users part of the server API.
-  readonly userUrl: string = `${environment.apiUrl}users`;
-  readonly usersByCompanyUrl: string = `${environment.apiUrl}usersByCompany`;
-
-  private readonly roleKey = 'role';
-  private readonly ageKey = 'age';
-  private readonly companyKey = 'company';
-
   // The private `HttpClient` is *injected* into the service
   // by the Angular framework. This allows the system to create
   // only one `HttpClient` and share that across all services
@@ -29,8 +21,15 @@ export class UserService {
   // of `HttpClient` in the unit tests so they don't have to
   // make "real" HTTP calls to a server that might not exist or
   // might not be currently running.
-  constructor(private httpClient: HttpClient) {
-  }
+  private httpClient = inject(HttpClient);
+
+  // The URL for the users part of the server API.
+  readonly userUrl: string = `${environment.apiUrl}users`;
+  readonly usersByCompanyUrl: string = `${environment.apiUrl}usersByCompany`;
+
+  private readonly roleKey = 'role';
+  private readonly ageKey = 'age';
+  private readonly companyKey = 'company';
 
   /**
    * Get all the users from the server, filtered by the information

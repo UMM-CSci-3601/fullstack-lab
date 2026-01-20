@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -50,6 +50,11 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
   ],
 })
 export class UserListComponent {
+  // userService the `UserService` used to get users from the server
+  private userService = inject(UserService);
+  // snackBar the `MatSnackBar` used to display feedback
+  private snackBar = inject(MatSnackBar);
+
   userName = signal<string | undefined>(undefined);
   userAge = signal<number | undefined>(undefined);
   userRole = signal<UserRole | undefined>(undefined);
@@ -58,18 +63,6 @@ export class UserListComponent {
   viewType = signal<'card' | 'list'>('card');
 
   errMsg = signal<string | undefined>(undefined);
-
-  /**
-   * This constructor injects both an instance of `UserService`
-   * and an instance of `MatSnackBar` into this component.
-   * `UserService` lets us interact with the server.
-   *
-   * @param userService the `UserService` used to get users from the server
-   * @param snackBar the `MatSnackBar` used to display feedback
-   */
-  constructor(private userService: UserService, private snackBar: MatSnackBar) {
-    // Nothing here – everything is in the injection parameters.
-  }
 
   // The `Observable`s used in the definition of `serverFilteredUsers` below need
   // observables to react to, i.e., they need to know what kinds of changes to respond to.
