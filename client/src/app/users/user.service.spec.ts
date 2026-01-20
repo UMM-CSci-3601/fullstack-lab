@@ -67,9 +67,7 @@ describe('UserService', () => {
     // HTTP client.
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    TestBed.runInInjectionContext(() => {
-      userService = new UserService()
-    });
+    userService = TestBed.inject(UserService);
   });
 
   afterEach(() => {

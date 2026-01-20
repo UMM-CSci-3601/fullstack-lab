@@ -1,14 +1,8 @@
 import { Location } from '@angular/common';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
-import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MockUserService } from 'src/testing/user.service.mock';
 import { AddUserComponent } from './add-user.component';
@@ -22,20 +16,15 @@ describe('AddUserComponent', () => {
   let fixture: ComponentFixture<AddUserComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
       imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatSnackBarModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        RouterModule,
         AddUserComponent
       ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: UserService, useClass: MockUserService }
+      ]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -273,19 +262,17 @@ describe('AddUserComponent#submitForm()', () => {
   let location: Location;
 
   beforeEach(() => {
-    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule,
-        MatSnackBarModule,
-        MatCardModule,
-        MatSelectModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        RouterModule.forRoot([
+      imports: [
+        AddUserComponent
+      ],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        {provide: UserService, useClass: MockUserService },
+        provideRouter([
           { path: 'users/1', component: UserProfileComponent }
-        ]),
-        AddUserComponent, UserProfileComponent],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+        ])]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
