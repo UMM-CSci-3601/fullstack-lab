@@ -67,7 +67,7 @@ describe('UserService', () => {
     // HTTP client.
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
-    userService = new UserService(httpClient);
+    userService = new UserService();
   });
 
   afterEach(() => {
