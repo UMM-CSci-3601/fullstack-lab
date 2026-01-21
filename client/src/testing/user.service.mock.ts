@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { User, UserRole } from '../app/users/user';
+import { UserService } from 'src/app/users/user.service';
 
 /**
  * A "mock" version of the `UserService` that can be used to test components
@@ -11,7 +12,7 @@ import { User, UserRole } from '../app/users/user';
 @Injectable({
   providedIn: AppComponent
 })
-export class MockUserService  {
+export class MockUserService implements Pick<UserService, 'getUsers' | 'getUserById' | 'addUser' | 'filterUsers'> {
   static testUsers: User[] = [
     {
       _id: 'chris_id',
