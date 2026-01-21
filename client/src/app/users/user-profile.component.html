@@ -1,8 +1,8 @@
 <div class="flex-row">
   <div class="flex-1">
-    @if (user) {
+    @if (user()) {
     <app-user-card [user]="user()"></app-user-card>
-    } @else if (error) {
+    } @else if (error()) {
     <mat-card class="error-card">
       <mat-card-content>
         <h2>
