@@ -267,7 +267,7 @@ describe('AddUserComponent#submitForm()', () => {
         AddUserComponent
       ],
       providers: [
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(),
         provideHttpClientTesting(),
         {provide: UserService, useClass: MockUserService },
         provideRouter([

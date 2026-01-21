@@ -61,7 +61,7 @@ describe('UserService', () => {
     // Set up the mock handling of the HTTP requests
     TestBed.configureTestingModule({
       imports: [],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      providers: [provideHttpClient(), provideHttpClientTesting()]
     });
     // Construct an instance of the service with the mock
     // HTTP client.
