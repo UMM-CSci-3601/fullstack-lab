@@ -8,7 +8,7 @@ import { MockUserService } from 'src/testing/user.service.mock';
 import { AddUserComponent } from './add-user.component';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from './user.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;

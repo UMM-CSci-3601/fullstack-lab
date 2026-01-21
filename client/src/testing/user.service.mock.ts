@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
@@ -46,7 +47,7 @@ export class MockUserService implements Pick<UserService, 'getUsers' | 'getUserB
   // skipcq: JS-0105
   // It's OK that the `_filters` argument isn't used here, so we'll disable
   // this warning for just his function.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
