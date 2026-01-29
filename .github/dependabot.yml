@@ -4,6 +4,8 @@ updates:
   directory: "/client"
   schedule:
     interval: "weekly"
+  allow:
+    - dependency-name: "cypress"
   groups:
     angular:
       applies-to: version-updates
@@ -19,7 +21,7 @@ updates:
       update-types:
         - "patch"
         - "minor"
-    time: "02:00"
+    time: "12:00"
     timezone: America/Chicago
   open-pull-requests-limit: 10
   ignore:
