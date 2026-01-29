@@ -1,18 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { throwError } from 'rxjs';
 import { ActivatedRouteStub } from '../../testing/activated-route-stub';
 import { MockUserService } from '../../testing/user.service.mock';
 import { User } from './user';
-import { UserCardComponent } from './user-card.component';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from './user.service';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
-  const mockUserService = new MockUserService();
+  let userService: UserService;
   const chrisId = 'chris_id';
   const activatedRoute: ActivatedRouteStub = new ActivatedRouteStub({
     // Using the constructor here lets us try that branch in `activated-route-stub.ts`
@@ -23,13 +21,10 @@ describe('UserProfileComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule,
-        MatCardModule,
         UserProfileComponent,
-        UserCardComponent,
       ],
       providers: [
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserService, useClass: MockUserService },
         { provide: ActivatedRoute, useValue: activatedRoute },
       ],
     }).compileComponents();
@@ -37,6 +32,7 @@ describe('UserProfileComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
+    userService = TestBed.inject(UserService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -86,7 +82,7 @@ describe('UserProfileComponent', () => {
     // "Spy" on the `.addUser()` method in the user service. Here we basically
     // intercept any calls to that method and return the error response
     // defined above.
-    const getUserSpy = spyOn(mockUserService, 'getUserById').and.returnValue(
+    const getUserSpy = spyOn(userService, 'getUserById').and.returnValue(
       throwError(() => mockError)
     );
 
