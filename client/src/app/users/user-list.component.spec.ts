@@ -1,45 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatOptionModule } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { Observable } from 'rxjs';
 import { MockUserService } from '../../testing/user.service.mock';
 import { User } from './user';
 import { UserCardComponent } from './user-card.component';
 import { UserListComponent } from './user-list.component';
 import { UserService } from './user.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-const COMMON_IMPORTS: unknown[] = [
-  FormsModule,
-  MatCardModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatOptionModule,
-  MatButtonModule,
-  MatInputModule,
-  MatExpansionModule,
-  MatTooltipModule,
-  MatListModule,
-  MatDividerModule,
-  MatRadioModule,
-  MatIconModule,
-  MatSnackBarModule,
-  BrowserAnimationsModule,
-  RouterModule.forRoot([]),
-];
 
 describe('User list', () => {
   let userList: UserListComponent;
@@ -47,10 +16,10 @@ describe('User list', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [COMMON_IMPORTS, UserListComponent, UserCardComponent],
+      imports: [UserListComponent, UserCardComponent],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
       // Provide a test-double instead
-      providers: [{ provide: UserService, useValue: new MockUserService() }],
+      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: UserService, useClass: MockUserService }, provideRouter([])],
     });
   });
 
@@ -138,7 +107,6 @@ describe('Misbehaving User List', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        COMMON_IMPORTS,
         UserListComponent
       ],
       // providers:    [ UserService ]  // NO! Don't provide the real service!
@@ -146,7 +114,7 @@ describe('Misbehaving User List', () => {
       providers: [{
         provide: UserService,
         useValue: userServiceStub
-      }],
+      }, provideRouter([])],
     })
       .compileComponents();
   }));
