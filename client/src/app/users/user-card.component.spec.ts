@@ -20,7 +20,7 @@ describe('UserCardComponent', () => {
       .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(UserCardComponent);
     component = fixture.componentInstance;
     TestBed.runInInjectionContext(() => {

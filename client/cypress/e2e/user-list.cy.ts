@@ -112,6 +112,33 @@ describe('User list', () => {
     });
   });
 
+  it('Should default to sort option (name), check order, then switch sort option (age), and verify new order', () => {
+    // Select list view, and, initially, should be sorted by name
+    page.changeView('list');
+
+    // Some of the users should be listed
+    page.getUserListItems().should('have.lengthOf.above', 0);
+
+    page.getUserListItems().first().then((item) => {
+      const expectedName = 'Bolton Monroe';
+
+      // The first user listed should be the first alphabetically (which we know to be Bolton Monroe)
+      cy.wrap(item).find('.user-list-name').should('contain', expectedName);
+    });
+
+    // Choose the sort option "Age"
+    page.changeSort('age');
+    // Some of the users should be listed
+    page.getUserListItems().should('have.lengthOf.above', 0);
+
+    page.getUserListItems().first().then((item) => {
+      const expectedName = 'Roseann Roberson';
+
+      // The first user listed should be the youngest (which we know to be Roseann Roberson)
+      cy.wrap(item).find('.user-list-name').should('contain', expectedName);
+    });
+  });
+
   it('Should click view profile on a user and go to the right URL', () => {
     page.getUserCards().first().then((card) => {
       const firstUserName = card.find('.user-card-name').text();
