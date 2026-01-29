@@ -255,6 +255,17 @@ describe('AddUserComponent', () => {
   });
 });
 
+// A lot of these tests mock the serice using an approach like this doc example
+// https://angular.dev/guide/testing/components-scenarios#more-async-tests
+// The same way that the following allows the mock to be used:
+//
+// TestBed.configureTestingModule({
+//   providers: [{provide: TwainQuotes, useClass: MockTwainQuotes}], // A (more-async-tests) - provide + use class of the mock
+// });
+// const twainQuotes = TestBed.inject(TwainQuotes) as MockTwainQuotes; // B (more-async-tests) - inject the service as the mock
+//
+// Is how these tests work with the mock then being injected in
+
 describe('AddUserComponent#submitForm()', () => {
   let component: AddUserComponent;
   let fixture: ComponentFixture<AddUserComponent>;
@@ -269,7 +280,7 @@ describe('AddUserComponent#submitForm()', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        {provide: UserService, useClass: MockUserService },
+        {provide: UserService, useClass: MockUserService }, // A (more-async-tests) - provide + use class of the mock
         provideRouter([
           { path: 'users/1', component: UserProfileComponent }
         ])]
@@ -281,7 +292,7 @@ describe('AddUserComponent#submitForm()', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(UserService);
+    userService = TestBed.inject(UserService); // B (more-async-tests) - inject the service as the mock
     location = TestBed.inject(Location);
     // We need to inject the router and the HttpTestingController, but
     // never need to use them. So, we can just inject them into the TestBed
