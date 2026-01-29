@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { User, UserRole } from '../app/users/user';
-import { UserService } from '../app/users/user.service';
+import { UserService } from 'src/app/users/user.service';
 
 /**
  * A "mock" version of the `UserService` that can be used to test components
@@ -12,7 +13,7 @@ import { UserService } from '../app/users/user.service';
 @Injectable({
   providedIn: AppComponent
 })
-export class MockUserService extends UserService {
+export class MockUserService implements Pick<UserService, 'getUsers' | 'getUserById' | 'addUser' | 'filterUsers'> {
   static testUsers: User[] = [
     {
       _id: 'chris_id',
@@ -43,14 +44,10 @@ export class MockUserService extends UserService {
     }
   ];
 
-  constructor() {
-    super(); // do we even need this if it's just super?
-  }
-
   // skipcq: JS-0105
   // It's OK that the `_filters` argument isn't used here, so we'll disable
   // this warning for just his function.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   getUsers(_filters: { role?: UserRole; age?: number; company?: string }): Observable<User[]> {
     // Our goal here isn't to test (and thus rewrite) the service, so we'll
     // keep it simple and just return the test users regardless of what
@@ -74,5 +71,18 @@ export class MockUserService extends UserService {
     } else {
       return of(null);
     }
+  }
+
+  addUser(newUser: Partial<User>): Observable<string> {
+    // Send post request to add a new user with the user data as the body.
+    // `res.id` should be the MongoDB ID of the newly added `User`.
+    return of('')
+  }
+
+  filterUsers(users: User[], filters: {
+    name?: string;
+    company?: string;
+  }): User[] {
+    return []
   }
 }

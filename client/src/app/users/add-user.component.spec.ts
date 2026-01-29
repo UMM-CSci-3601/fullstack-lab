@@ -1,20 +1,14 @@
 import { Location } from '@angular/common';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
-import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Router, RouterModule } from '@angular/router';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { MockUserService } from 'src/testing/user.service.mock';
 import { AddUserComponent } from './add-user.component';
 import { UserProfileComponent } from './user-profile.component';
 import { UserService } from './user.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 
 describe('AddUserComponent', () => {
   let addUserComponent: AddUserComponent;
@@ -22,20 +16,15 @@ describe('AddUserComponent', () => {
   let fixture: ComponentFixture<AddUserComponent>;
 
   beforeEach(waitForAsync(() => {
-    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
       imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatSnackBarModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        RouterModule,
         AddUserComponent
       ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: UserService, useClass: MockUserService }
+      ]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -266,6 +255,17 @@ describe('AddUserComponent', () => {
   });
 });
 
+// A lot of these tests mock the serice using an approach like this doc example
+// https://angular.dev/guide/testing/components-scenarios#more-async-tests
+// The same way that the following allows the mock to be used:
+//
+// TestBed.configureTestingModule({
+//   providers: [{provide: TwainQuotes, useClass: MockTwainQuotes}], // A (more-async-tests) - provide + use class of the mock
+// });
+// const twainQuotes = TestBed.inject(TwainQuotes) as MockTwainQuotes; // B (more-async-tests) - inject the service as the mock
+//
+// Is how these tests work with the mock then being injected in
+
 describe('AddUserComponent#submitForm()', () => {
   let component: AddUserComponent;
   let fixture: ComponentFixture<AddUserComponent>;
@@ -273,19 +273,17 @@ describe('AddUserComponent#submitForm()', () => {
   let location: Location;
 
   beforeEach(() => {
-    TestBed.overrideProvider(UserService, { useValue: new MockUserService() });
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule,
-        MatSnackBarModule,
-        MatCardModule,
-        MatSelectModule,
-        MatInputModule,
-        BrowserAnimationsModule,
-        RouterModule.forRoot([
+      imports: [
+        AddUserComponent
+      ],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {provide: UserService, useClass: MockUserService }, // A (more-async-tests) - provide + use class of the mock
+        provideRouter([
           { path: 'users/1', component: UserProfileComponent }
-        ]),
-        AddUserComponent, UserProfileComponent],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+        ])]
     }).compileComponents().catch(error => {
       expect(error).toBeNull();
     });
@@ -294,7 +292,7 @@ describe('AddUserComponent#submitForm()', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(UserService);
+    userService = TestBed.inject(UserService); // B (more-async-tests) - inject the service as the mock
     location = TestBed.inject(Location);
     // We need to inject the router and the HttpTestingController, but
     // never need to use them. So, we can just inject them into the TestBed
@@ -321,37 +319,26 @@ describe('AddUserComponent#submitForm()', () => {
   // need to wait (using `tick()`) for that to complete before we can check the
   // new location.
   it('should call addUser() and handle success response', fakeAsync(() => {
-    // This use of `fixture.ngZone.run()` is necessary to avoid a warning when
-    // we run the tests. `submitForm()` calls `.navigate()` when it succeeds,
-    // and that apparently needs to be run in a separate Angular zone (a concept
-    // I don't claim to understand well). The suggestion in this lengthy
-    // thread: https://github.com/angular/angular/issues/25837
-    // is to wrap the relevant part of the test in an Angular zone, and that
-    // does seem to resolve the issue. Some people seem to feel that this is
-    // actually a workaround for a bug in Angular, but I'm not clear enough
-    // on the issues to know if that's true or not. - Nic
-    fixture.ngZone.run(() => {
-      // "Spy" on the `.addUser()` method in the user service. Here we basically
-      // intercept any calls to that method and return a canned response ('1').
-      // This means we don't have to worry about the details of the `.addUser()`,
-      // or actually have a server running to receive the HTTP request that
-      // `.addUser()` would typically generate. Note also that the particular values
-      // we set up in our form (e.g., 'Chris Smith') are actually ignored
-      // thanks to our `spyOn()` call.
-      const addUserSpy = spyOn(userService, 'addUser').and.returnValue(of('1'));
-      component.submitForm();
-      // Check that `.addUser()` was called with the form's values which we set
-      // up above.
-      expect(addUserSpy).toHaveBeenCalledWith(component.addUserForm.value);
-      // Wait for the router to navigate to the new page. This is necessary since
-      // navigation is an asynchronous operation.
-      tick();
-      // Now we can check that the router actually navigated to the right place.
-      expect(location.path()).toBe('/users/1');
-      // Flush any pending microtasks. This is necessary to ensure that the
-      // timer generated by `fakeAsync()` completes before the test finishes.
-      flush();
-    });
+    // "Spy" on the `.addUser()` method in the user service. Here we basically
+    // intercept any calls to that method and return a canned response ('1').
+    // This means we don't have to worry about the details of the `.addUser()`,
+    // or actually have a server running to receive the HTTP request that
+    // `.addUser()` would typically generate. Note also that the particular values
+    // we set up in our form (e.g., 'Chris Smith') are actually ignored
+    // thanks to our `spyOn()` call.
+    const addUserSpy = spyOn(userService, 'addUser').and.returnValue(of('1'));
+    component.submitForm();
+    // Check that `.addUser()` was called with the form's values which we set
+    // up above.
+    expect(addUserSpy).toHaveBeenCalledWith(component.addUserForm.value);
+    // Wait for the router to navigate to the new page. This is necessary since
+    // navigation is an asynchronous operation.
+    tick();
+    // Now we can check that the router actually navigated to the right place.
+    expect(location.path()).toBe('/users/1');
+    // Flush any pending microtasks. This is necessary to ensure that the
+    // timer generated by `fakeAsync()` completes before the test finishes.
+    flush();
   }));
 
   // This doesn't need `fakeAsync()`, `tick()`, or `flush() because the
