@@ -255,7 +255,7 @@ describe('AddUserComponent', () => {
   });
 });
 
-// A lot of these tests mock the serice using an approach like this doc example
+// A lot of these tests mock the service using an approach like this doc example
 // https://angular.dev/guide/testing/components-scenarios#more-async-tests
 // The same way that the following allows the mock to be used:
 //
