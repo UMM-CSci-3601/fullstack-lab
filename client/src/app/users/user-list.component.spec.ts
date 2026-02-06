@@ -42,7 +42,7 @@ describe('User list', () => {
   it('should initialize with serverFilteredUsers available', () => {
     const users = userList.serverFilteredUsers();
     expect(users).toBeDefined();
-    expect(Array.isArray(userList.serverFilteredUsers())).toBe(true);
+    expect(Array.isArray(users)).toBe(true);
   });
 
   it('should call getUsers() when userRole signal changes', () => {
