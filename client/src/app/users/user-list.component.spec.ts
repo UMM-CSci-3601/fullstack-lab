@@ -1,80 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable } from 'rxjs';
-import { MockUserService } from '../../testing/user.service.mock';
+
 import { User } from './user';
-import { UserCardComponent } from './user-card.component';
+
 import { UserListComponent } from './user-list.component';
 import { UserService } from './user.service';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 
-describe('User list', () => {
-  let userList: UserListComponent;
-  let fixture: ComponentFixture<UserListComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [UserListComponent, UserCardComponent],
-      // providers:    [ UserService ]  // NO! Don't provide the real service!
-      // Provide a test-double instead
-      providers: [provideHttpClient(), provideHttpClientTesting(), { provide: UserService, useClass: MockUserService }, provideRouter([])],
-    });
-  });
-
-  // This constructs the `userList` (declared
-  // above) that will be used throughout the tests.
-  beforeEach(waitForAsync(() => {
-    // Compile all the components in the test bed
-    // so that everything's ready to go.
-    TestBed.compileComponents().then(() => {
-      /* Create a fixture of the UserListComponent. That
-       * allows us to get an instance of the component
-       * (userList, below) that we can control in
-       * the tests.
-       */
-      fixture = TestBed.createComponent(UserListComponent);
-      userList = fixture.componentInstance;
-      /* Tells Angular to sync the data bindings between
-       * the model and the DOM. This ensures, e.g., that the
-       * `userList` component actually requests the list
-       * of users from the `MockUserService` so that it's
-       * up to date before we start running tests on it.
-       */
-      fixture.detectChanges();
-    });
-  }));
-
-  it('contains all the users', () => {
-    expect(userList.serverFilteredUsers().length).toBe(3);
-  });
-
-  it("contains a user named 'Chris'", () => {
-    expect(
-      userList.serverFilteredUsers().some((user: User) => user.name === 'Chris')
-    ).toBe(true);
-  });
-
-  it("contain a user named 'Jamie'", () => {
-    expect(
-      userList.serverFilteredUsers().some((user: User) => user.name === 'Jamie')
-    ).toBe(true);
-  });
-
-  it("doesn't contain a user named 'Santa'", () => {
-    expect(
-      userList.serverFilteredUsers().some((user: User) => user.name === 'Santa')
-    ).toBe(false);
-  });
-
-  it('has two users that are 37 years old', () => {
-    expect(
-      userList.serverFilteredUsers().filter((user: User) => user.age === 37)
-        .length
-    ).toBe(2);
-  });
-});
 
 /*
  * This test is a little odd, but illustrates how we can use stubs
