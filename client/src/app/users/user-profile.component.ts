@@ -1,7 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserCardComponent } from './user-card.component';
 import { UserService } from './user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -25,9 +25,7 @@ export class UserProfileComponent {
       // which will emit zero or one values depending on whether there is a
       // `User` with that ID.
       switchMap((id: string) => this.userService.getUserById(id)),
-      tap(() => this.loading.set(false)),
       catchError((_err) => {
-        this.loading.set(false);
         this.error.set({
           help: 'There was a problem loading the user – try again.',
           httpResponse: _err.message,
@@ -44,7 +42,6 @@ export class UserProfileComponent {
       // finalize(() => console.log('We got a new user, and we are done!'))
     )
   );
-  loading = signal(true);
   // The `error` will initially have empty strings for all its components.
   error = signal({ help: '', httpResponse: '', message: '' });
 }
