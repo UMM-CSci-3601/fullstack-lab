@@ -31,8 +31,9 @@ As a reminder, **here are the steps needed to _run_ the project**:
 
 1. Go into the `database` directory and enter `./mongoseed.sh` to run the script that will seed the database.
 2. Go into the `server` directory and enter `./gradlew run` to run your server.
-3. In a _different_ terminal, go into the `client` directory and enter `ng serve` to make the client available.
-4. You can then go to [`localhost:4200`](http://localhost:4200) in your favorite web browser and see
+3. (If this is the first time you are running the client on this machine, in a _different_ terminal window from the server that is running, go into the `client` directory and enter `npm install` to install the client dependencies. This only needs to be done once per local clone of the repo. Running `npm install` may take several minutes the first time since it has to download all the dependencies. This step generates a `node_modules` directory in the `client` directory that contains all the installed dependencies.)
+4. In a _different_ terminal window from the server that is running, go into the `client` directory and enter `ng serve` to make the client available.
+5. You can then go to [`localhost:4200`](http://localhost:4200) in your favorite web browser and see
    your nifty Angular app.
 
 ### Make sure you have Mongo running on your (lab) computer
@@ -94,7 +95,7 @@ Like in previous labs, click "Install All" to automatically install them.
 Before you start working you will need to install the dependencies for the client.
 
 1. Move into the `client` directory (`cd client`)
-2. Run `npm install`
+2. Run `npm install`. This only needs to be done once per local clone of the repo. Running `npm install` may take several minutes the first time since it has to download all the dependencies. This step generates a `node_modules` directory in the `client` directory that contains all the installed dependencies. There may be some warnings about vulnerabilities during the install process; these are generally safe to ignore unless they are errors. You may also be able to fix them later by running `npm audit fix` in the `client` directory.
 
 ### Seeding the Database
 
