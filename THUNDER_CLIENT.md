@@ -14,7 +14,7 @@ really helpful when you're trying to debug what your server gives you.
 To use Thunder Client (once the extension is installed in VS Code), open it from the sidebar.
 The icon is a circle with a lightning bolt in the middle.
 
-![Thunder Client VS Code extension icon](https://user-images.githubusercontent.com/32685970/214179360-2ab176da-dc4f-43f8-8519-4ade1660ef89.png){height=400px}
+<img src = "https://user-images.githubusercontent.com/32685970/214179360-2ab176da-dc4f-43f8-8519-4ade1660ef89.png" alt = "Thunder Client in VS Code sidebar" height = 300 />
 
 This should add a button in the top of the sidebar labelled `New Request`, click it.
 
