@@ -1,14 +1,11 @@
-import { Component, DestroyRef, signal, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { catchError, map, switchMap } from 'rxjs/operators';
-// import { User } from './user';
 import { UserCardComponent } from './user-card.component';
 import { UserService } from './user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
-// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,12 +14,8 @@ import { of } from 'rxjs';
   imports: [UserCardComponent, MatCardModule],
 })
 export class UserProfileComponent {
-  // we used to inject this in the constructor, and it appears to be unused -- watch this
-  private snackBar = inject(MatSnackBar);
   private route = inject(ActivatedRoute);
   private userService = inject(UserService);
-  // we used to inject this in the constructor, and it appears to be unused -- watch this
-  private destroyRef = inject(DestroyRef);
 
   user = toSignal(
     this.route.paramMap.pipe(
