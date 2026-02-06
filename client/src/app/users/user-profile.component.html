@@ -2,7 +2,7 @@
   <div class="flex-1">
     @if (user()) {
     <app-user-card [user]="user()"></app-user-card>
-    } @else if (error()) {
+    } @else if (error().help !== '') {
     <mat-card class="error-card">
       <mat-card-content>
         <h2>
@@ -21,7 +21,7 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    } @else {
+    } @else if (loading()) {
     <mat-card>
       <mat-card-content>
         <p>Loading User Profile data...</p>
