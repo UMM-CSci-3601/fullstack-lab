@@ -1,13 +1,68 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable } from 'rxjs';
-
+import { MockUserService } from 'src/testing/user.service.mock';
 import { User } from './user';
-
+import { UserCardComponent } from './user-card.component';
 import { UserListComponent } from './user-list.component';
 import { UserService } from './user.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
+describe('User list', () => {
+  let userList: UserListComponent;
+  let fixture: ComponentFixture<UserListComponent>;
+  let userService: UserService;
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [UserListComponent, UserCardComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: UserService, useClass: MockUserService },
+        provideRouter([])
+      ],
+    });
+  });
+
+  beforeEach(waitForAsync(() => {
+    TestBed.compileComponents().then(() => {
+      fixture = TestBed.createComponent(UserListComponent);
+      userList = fixture.componentInstance;
+      userService = TestBed.inject(UserService);
+      fixture.detectChanges();
+    });
+  }));
+
+  it('should create the component', () => {
+    expect(userList).toBeTruthy();
+  });
+
+  it('should initialize with serverFilteredUsers available', () => {
+    const users = userList.serverFilteredUsers();
+    expect(users).toBeDefined();
+    expect(Array.isArray(userList.serverFilteredUsers())).toBe(true);
+  });
+
+  it('should call getUsers() when userRole signal changes', () => {
+    const spy = spyOn(userService, 'getUsers').and.callThrough();
+    userList.userRole.set('admin');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith({ role: 'admin', age: undefined });
+  });
+
+  it('should call getUsers() when userAge signal changes', () => {
+    const spy = spyOn(userService, 'getUsers').and.callThrough();
+    userList.userAge.set(25);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith({ role: undefined, age: 25 });
+  });
+
+  it('should not show error message on successful load', () => {
+    expect(userList.errMsg()).toBeUndefined();
+  });
+});
 
 /*
  * This test is a little odd, but illustrates how we can use stubs
