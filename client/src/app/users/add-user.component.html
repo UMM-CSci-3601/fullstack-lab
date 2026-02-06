@@ -9,23 +9,21 @@
           <div class="flex-col">
             <mat-form-field>
               <mat-label>Name</mat-label>
-              <input matInput formControlName="name"
-                required>
+              <input matInput formControlName="name" required>
               @if (formControlHasError('name')) {
-                <mat-error data-test="nameError">
-                  {{getErrorMessage('name')}}
-                </mat-error>
+              <mat-error data-test="nameError">
+                {{getErrorMessage('name')}}
+              </mat-error>
               }
             </mat-form-field>
 
             <mat-form-field>
               <mat-label>Age</mat-label>
-              <input matInput type="number"
-                formControlName="age" required>
+              <input matInput type="number" formControlName="age" required>
               @if (formControlHasError('age')) {
-                <mat-error data-test="ageError">
-                  {{getErrorMessage('age')}}
-                </mat-error>
+              <mat-error data-test="ageError">
+                {{getErrorMessage('age')}}
+              </mat-error>
               }
             </mat-form-field>
 
@@ -37,12 +35,11 @@
 
             <mat-form-field>
               <mat-label>Email</mat-label>
-              <input matInput type="email"
-                formControlName="email" required>
+              <input matInput type="email" formControlName="email" required>
               @if (formControlHasError('email')) {
-                <mat-error data-test="emailError">
-                  {{getErrorMessage('email')}}
-                </mat-error>
+              <mat-error data-test="emailError">
+                {{getErrorMessage('email')}}
+              </mat-error>
               }
             </mat-form-field>
 
@@ -54,23 +51,17 @@
                 <mat-option value="viewer">Viewer</mat-option>
               </mat-select>
               @if (formControlHasError('role')) {
-                <mat-error data-test="roleError">
-                  {{getErrorMessage('role')}}
-                </mat-error>
+              <mat-error data-test="roleError">
+                {{getErrorMessage('role')}}
+              </mat-error>
               }
             </mat-form-field>
           </div>
 
         </mat-card-content>
         <mat-card-actions align="end">
-          <button
-            mat-button
-            type="button"
-            color="primary"
-            [disabled]="!addUserForm.valid"
-            type="submit"
-            data-test="confirmAddUserButton"
-            >
+          <button mat-button type="button" color="primary" [disabled]="!addUserForm.valid" type="submit"
+            data-test="confirmAddUserButton">
             ADD USER
           </button>
         </mat-card-actions>
