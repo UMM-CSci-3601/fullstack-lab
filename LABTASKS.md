@@ -99,23 +99,10 @@ Now that we have a reliable way to request todo data from our server,
 we should write a nice client-side application to help us request and view
 this data.
 
-- Use Angular to build a nice client-side interface which allows the user to:
-  - [ ] Filter todos by status
-  - [ ] Filter todos by owner
-  - [ ] Filter todos by contents of the body
-  - [ ] Filter todos by category
-  - [ ] Apply combinations of filters
-  - [ ] Sort by a todo field (status, owner, body contents, or category)
-  - [ ] Limit the number of todos returned
-  - [ ] Add new todos. This requires:
-    - [ ] An Angular form/page that allows the user to enter the information for a new todo with reasonable controls and validation.
-    - [ ] A new endpoint on the server that allows clients to add new todos.
-    - [ ] Logic in the server to add that new todo to the database and return the new ID.
-  - [ ] Testing of all of the above.
 - Your new functionality should be contained in a 'todos' view,
   with a 'todo-list' component and probably a service.
   > Note: You do NOT need to have multiple views of your todos like we provided you for users, and you should feel free to try out a different kind of component that you think would work well to display todos. Think about what information you would want to actually _see_ about the todo to help you manage your tasks.
-  - [ ] Display the todos in a reasonable way using at least two nifty Angular Material features from [here](https://material.angular.io/components/categories)!
+  - [ ] Display the todos in a reasonable way using [at least two nifty Angular Material features](https://material.angular.io/components/categories)!
 - You should make some decisions about when to request data from the API,
   and when to simply use Angular's filtering tools to change how
   the data is displayed.
@@ -125,6 +112,23 @@ this data.
   - :question: Make note of why you choose to do each of those two things the way you did
 
 :question: Answer Question 5 about your filtering in [QUESTIONS](#questions)
+
+For Lab 3, teams _need_ to implement the following features. You can implement these in any order you like, but implement them one at a time and test each one as you go.
+
+- Use Angular to build a nice client-side interface which allows the user to:
+  - [ ] Limit the number of todos returned
+  - [ ] Filter todos by status
+  - [ ] Filter todos by contents of the body
+  - [ ] Add new todos. This requires:
+    - [ ] An Angular form/page that allows the user to enter the information for a new todo with reasonable controls and validation.
+    - [ ] A new endpoint on the server that allows clients to add new todos.
+    - [ ] Logic in the server to add that new todo to the database and return the new ID.
+
+- For the possibility of full credit, teams should also implement these features:
+  - [ ] Filter todos by owner
+  - [ ] Filter todos by category  
+  - [ ] Sort by a todo field (status, owner, body contents, or category)
+  - [ ] Apply combinations of filters
 
 ### Writing todos to the Database
 
@@ -138,7 +142,7 @@ You should use Angular to display todos in attractive, readable, and useful ways
 
 - [ ] Use the Angular Material Design tools you've learned about to build a nice interface for
   accessing these APIs:
-  - [ ] You must use at least two nifty Angular Material features from [here](https://material.angular.io/components/categories)!
+  - [ ] You must use [at least two nifty Angular Material features](https://material.angular.io/components/categories)!
   - There are many interesting tools - we encourage you to try several.
   - Feel free to borrow ideas and (preferably small bits of) code from the previous labs, but make
     sure you understand it. Also feel free to use this as an opportunity to improve the UI, perhaps
