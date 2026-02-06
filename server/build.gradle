@@ -77,6 +77,8 @@ jacocoTestReport {
     // location is buried pretty deep in the build directory,
     // so this makes it easier to find.
     html.outputLocation = file("${buildDir}/jacocoHtml")
+    xml.required = true
+    xml.outputLocation = layout.buildDirectory.dir('jacoco/jacoco.xml').get().asFile
   }
 
   afterEvaluate {
