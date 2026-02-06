@@ -2,7 +2,7 @@
   <div class="flex-1">
     @if (user()) {
     <app-user-card [user]="user()"></app-user-card>
-    } @else if (error()) {
+    } @else if (error().help !== '') {
     <mat-card class="error-card">
       <mat-card-content>
         <h2>
