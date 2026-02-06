@@ -3,6 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { provideRouter, Router } from '@angular/router';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { of, throwError } from 'rxjs';
 import { MockUserService } from 'src/testing/user.service.mock';
 import { AddUserComponent } from './add-user.component';
@@ -18,7 +19,8 @@ describe('AddUserComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        AddUserComponent
+        AddUserComponent,
+        MatSnackBarModule
       ],
       providers: [
         provideHttpClient(),
@@ -275,7 +277,8 @@ describe('AddUserComponent#submitForm()', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AddUserComponent
+        AddUserComponent,
+        MatSnackBarModule
       ],
       providers: [
         provideHttpClient(),
