@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, Signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { UserCardComponent } from './user-card.component';
 import { UserService } from './user.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { of } from 'rxjs';
+import { User } from './user';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +18,7 @@ export class UserProfileComponent {
   private route = inject(ActivatedRoute);
   private userService = inject(UserService);
 
-  user = toSignal(
+  user: Signal<User> = toSignal(
     this.route.paramMap.pipe(
       // Map the paramMap into the id
       map((paramMap: ParamMap) => paramMap.get('id')),
